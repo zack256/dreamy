@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+<h3 class = "title is-3">Write on Image</h3>
+<div class = "field has-addons">
+      <div class = "control">
+            <input class = "input" type = "text" placeholder = "Image URL" id = "imgURL">
+      </div>
+      <div class = "control">
+            <a class = "button is-info" onclick = "getImage();">Get</a>
+      </div>
+</div>
+<div class = "content">
+    <img id = "img" src = "">
+</div>
+{% endblock %}
+{% block more_bottom %}
+<script>
+    function getImage () {
+        document.getElementById("img").src = document.getElementById("imgURL").value;
+    }
+</script>
+{% endblock %}
