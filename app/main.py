@@ -1,7 +1,9 @@
-from flask import Flask, redirect, render_template, request, send_from_directory
+from flask import Flask, redirect, render_template, request, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import os
 import app.config as config
+import app.utils as utils
+import app.photoshop as photoshop
 
 app = Flask(__name__)
 config.configure_app(app)
@@ -31,11 +33,19 @@ def get_asset_file(file_path):
 def create_template_form():
     img_url = request.form["img_url"]
     template_name = request.form["template_name"]
+    if not utils.is_valid_template_name(template_name):
+        return "Invalid template name!"
     template = Template(image_url = img_url, name = template_name)
     db.session.add(template)
     db.session.commit()
     return redirect("/")
 
-db.create_all()
-temps=Template.query.all()
-print(temps)
+@app.route("/manual/")
+def manual_write_on_image():
+    reqd_template = request.args.get("t", None)
+    if not reqd_template:
+        return "Need a template!"
+    template = Template.query.get(reqd_template)    # only by ID for now.
+    coords_dict = utils.unpack_coordinate_parameters(request.args)
+    img_bytesio = photoshop.write_on_image_with_coords_dict(template.image_url, coords_dict)
+    return send_file(img_bytesio, mimetype='image/jpeg')
