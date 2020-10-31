@@ -6,3 +6,7 @@ $(document).ready(function () {
         console.log(xCoord + ", " + yCoord);
     });
 });
+
+function getImage() {
+    document.getElementById("img").src = document.getElementById("imgURL").value;
+}

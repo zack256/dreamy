@@ -3,21 +3,26 @@
 <h3 class = "title is-3">Write on Image</h3>
 <div class = "field has-addons">
       <div class = "control">
-            <input class = "input" type = "text" placeholder = "Image URL" id = "imgURL">
+            <input class = "input" type = "text" placeholder = "Image URL" form = "createTemplateForm" name = "img_url" id = "imgURL">
       </div>
       <div class = "control">
             <a class = "button is-info" onclick = "getImage();">Get</a>
       </div>
 </div>
+<div class = "field">
+      <div class = "control">
+            <input class = "input" type = "text" placeholder = "Template Name" form = "createTemplateForm" name = "template_name">
+      </div>
+</div>
 <div class = "content">
     <img id = "img" src = "">
 </div>
+<form id = "createTemplateForm" action = "/forms/create-template/" method = "POST" onreset = "getImage();"></form>
+<div class = "buttons">
+      <button class = "button is-success" type = "submit" form = "createTemplateForm">Create</button>
+      <button class = "button is-danger" type = "reset" form = "createTemplateForm">Cancel</button>
+</div>
 {% endblock %}
 {% block more_bottom %}
-<script>
-    function getImage () {
-        document.getElementById("img").src = document.getElementById("imgURL").value;
-    }
-</script>
 <script src = "/assets/js/click_image.js"></script>
 {% endblock %}
