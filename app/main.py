@@ -45,7 +45,17 @@ def manual_write_on_image():
     reqd_template = request.args.get("t", None)
     if not reqd_template:
         return "Need a template!"
-    template = Template.query.get(reqd_template)    # only by ID for now.
+    image_option = utils.manual_get_image_option(reqd_template)
+    if image_option == 0:
+        image_url = reqd_template
+    else:
+        if image_option == 1:
+            template = Template.query.get(reqd_template)
+        else:
+            template = Template.query.filter(Template.name == reqd_template).first()
+        if not template:
+            return "Template not found!"
+        image_url = template.image_url
     coords_dict = utils.unpack_coordinate_parameters(request.args)
-    img_bytesio = photoshop.write_on_image_with_coords_dict(template.image_url, coords_dict)
+    img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
     return send_file(img_bytesio, mimetype='image/jpeg')

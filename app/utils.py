@@ -29,3 +29,10 @@ def unpack_coordinate_parameters(parameter_dict):
         if coords:
             coordinate_dict[coords] = parameter_dict[param]
     return coordinate_dict
+
+def manual_get_image_option(requested):
+    if "." in requested:
+        return 0    # url
+    elif requested[0] in string.digits:
+        return 1    # ID
+    return 2        # name
