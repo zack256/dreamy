@@ -15,6 +15,24 @@ class Template(db.Model):
     name = db.Column(db.String(32), nullable = False, unique = True)
     image_url = db.Column(db.String(2048), nullable = False)
     created = db.Column(db.DateTime(), default = db.func.now())
+    text_nodes = db.relationship("TextNode", backref = "template")
+
+class TextNode(db.Model):
+    __tablename__ = "text_nodes"
+    id = db.Column(db.Integer, primary_key = True)
+    description = db.Column(db.String(64), nullable = False, server_default = "")
+    x = db.Column(db.Integer)
+    y = db.Column(db.Integer)
+    r = db.Column(db.Integer)
+    g = db.Column(db.Integer)
+    b = db.Column(db.Integer)
+    index = db.Column(db.Integer)
+    template_id = db.Column(db.Integer(), db.ForeignKey('templates.id', ondelete = 'CASCADE'))
+    
+    def get_coordinates_string(self):
+        return "({}, {})".format(self.x, self.y)
+    def get_rgb_string(self):
+        return "({}, {}, {})".format(self.r, self.g, self.b)
 
 @app.route("/")
 def home_page_view():
@@ -58,4 +76,13 @@ def manual_write_on_image():
         image_url = template.image_url
     coords_dict = utils.unpack_coordinate_parameters(request.args)
     img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
-    return send_file(img_bytesio, mimetype='image/jpeg')
+    return send_file(img_bytesio, mimetype = 'image/jpeg')
+
+@app.route("/templates/<template_name>/")
+def specific_template_page(template_name):
+    template = Template.query.filter(Template.name == template_name).first()
+    if not template:
+        return "Template with that name not found!"
+    text_nodes = template.text_nodes
+    text_nodes.sort(key = lambda x : x.index)
+    return render_template("template.html", template = template, text_nodes = text_nodes)
