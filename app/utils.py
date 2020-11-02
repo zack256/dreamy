@@ -36,3 +36,6 @@ def manual_get_image_option(requested):
     elif requested[0] in string.digits:
         return 1    # ID
     return 2        # name
+
+def is_valid_website(site):
+    return "." in site  # B)

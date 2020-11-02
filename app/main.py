@@ -38,9 +38,9 @@ class TextNode(db.Model):
 def home_page_view():
     return "hello :)"
 
-@app.route("/write-on-image/")
+@app.route("/create-template/")
 def write_on_image_page():
-    return render_template("write_on_image.html")
+    return render_template("create_template.html")
 
 @app.route("/assets/<path:file_path>")
 def get_asset_file(file_path):
@@ -53,6 +53,8 @@ def create_template_form():
     template_name = request.form["template_name"]
     if not utils.is_valid_template_name(template_name):
         return "Invalid template name!"
+    if not utils.is_valid_website(img_url):
+        return "Invalid URL!"
     template = Template(image_url = img_url, name = template_name)
     db.session.add(template)
     db.session.commit()
