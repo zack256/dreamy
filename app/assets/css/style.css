@@ -1,3 +1,7 @@
 body {
     margin : 2em;
 }
+.template-image-in-table {
+    max-width : 20em !important;
+    max-height : 20em !important;
+}

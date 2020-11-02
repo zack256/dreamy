@@ -78,6 +78,11 @@ def manual_write_on_image():
     img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
     return send_file(img_bytesio, mimetype = 'image/jpeg')
 
+@app.route("/templates/")
+def templates_page():
+    templates = Template.query.order_by(Template.created).all()
+    return render_template("templates.html", templates = templates)
+
 @app.route("/templates/<template_name>/")
 def specific_template_page(template_name):
     template = Template.query.filter(Template.name == template_name).first()
