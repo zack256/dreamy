@@ -2,28 +2,53 @@
 {% block body %}
 <h3 class = "title is-3">Template {{ template.name }}</h3>
 <div class = "content">
-    <img id = "img" src = "{{ template.image_url }}">
-    <table class = "table is-striped">
-          <thead>
-              <tr>
-                  <th>Index</th>
-                  <th>Description</th>
-                  <th>Coordinates</th>
-                  <th>Color</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for text_node in text_nodes %}
-              <tr>
-                  <td>{{ text_node.index }}</td>
-                  <td>{{ text_node.description }}</td>
-                  <td>{{ text_node.get_coordinates_string() }}</td>
-                  <td>{{ text_node.get_rgb_string() }}</td>
-              </tr>
-              {% endfor %}
-          </tbody>
-    </table>
+    <img id = "img" src = "{{ template.image_url }}" class = "template-page-img">
+    <div class = "columns">
+        <div class = "column">
+            <p>Existing Text-Nodes</p>
+            <table class = "table is-striped">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Description</th>
+                        <th>Coordinates</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for text_node in text_nodes %}
+                    <tr>
+                        <td>{{ text_node.index }}</td>
+                        <td>{{ text_node.description }}</td>
+                        <td>{{ text_node.get_coordinates_string() }}</td>
+                        <td>{{ text_node.get_rgb_string() }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class = "column">
+            <p>New Text-Nodes</p>
+            <table class = "table is-striped">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Description</th>
+                        <th>Coordinates</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody id = "newTextNodesTBody"></tbody>
+            </table>
+            <div class = "buttons">
+                <form id = "addTextNodesForm" action = "/forms/add-textnodes/" method = "POST"></form>
+                <button class = "button is-success" type = "submit" form = "addTextNodesForm">Add</button>
+                <button class = "button is-danger" type = "reset" form = "addTextNodesForm">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block more_bottom %}
+<script src = "/assets/js/click_image.js"></script>
 {% endblock %}

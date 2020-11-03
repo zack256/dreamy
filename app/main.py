@@ -60,11 +60,7 @@ def create_template_form():
     db.session.commit()
     return redirect("/")
 
-@app.route("/manual/")
-def manual_write_on_image():
-    reqd_template = request.args.get("t", None)
-    if not reqd_template:
-        return "Need a template!"
+def get_image_url_helper(reqd_template):
     image_option = utils.manual_get_image_option(reqd_template)
     if image_option == 0:
         image_url = reqd_template
@@ -74,8 +70,18 @@ def manual_write_on_image():
         else:
             template = Template.query.filter(Template.name == reqd_template).first()
         if not template:
-            return "Template not found!"
+            return None
         image_url = template.image_url
+    return image_url
+
+@app.route("/manual/")
+def manual_write_on_image():
+    reqd_template = request.args.get("t", None)
+    if not reqd_template:
+        return "Need a template!"
+    image_url = get_image_url_helper(reqd_template)
+    if not image_url:
+        return "Template not found!"
     coords_dict = utils.unpack_coordinate_parameters(request.args)
     img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
     return send_file(img_bytesio, mimetype = 'image/jpeg')
@@ -93,3 +99,13 @@ def specific_template_page(template_name):
     text_nodes = template.text_nodes
     text_nodes.sort(key = lambda x : x.index)
     return render_template("template.html", template = template, text_nodes = text_nodes)
+
+@app.route("/t/")
+def send_template_with_text_on_points():
+    reqd_template = request.args.get("t", None)
+    if not reqd_template:
+        return "Need a template!"
+    image_url = get_image_url_helper(reqd_template)
+    if not image_url:
+        return "Template not found!"
+    return "Under construction..."
