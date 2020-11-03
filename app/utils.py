@@ -39,3 +39,12 @@ def manual_get_image_option(requested):
 
 def is_valid_website(site):
     return "." in site  # B)
+
+def get_rgb(rgb_string):
+    if rgb_string[0] != "(" or rgb_string[-1] != ")":
+        return None
+    try:
+        r, g, b = map(int, rgb_string[1:-1].split(","))
+    except:
+        return None
+    return r, g, b

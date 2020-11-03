@@ -33,6 +33,10 @@ class TextNode(db.Model):
         return "({}, {})".format(self.x, self.y)
     def get_rgb_string(self):
         return "({}, {}, {})".format(self.r, self.g, self.b)
+    def set_coordinates_from_string(self, coordinate_string):
+        self.x, self.y = utils.get_coordinates(coordinate_string)
+    def set_rgb_from_string(self, rgb_string = "(0,0,0)"):
+        self.r, self.g, self.b = utils.get_rgb(rgb_string)
 
 @app.route("/")
 def home_page_view():
@@ -109,3 +113,28 @@ def send_template_with_text_on_points():
     if not image_url:
         return "Template not found!"
     return "Under construction..."
+
+@app.route("/forms/add-text-nodes/", methods = ["POST"])
+def add_text_nodes_form():
+    template = Template.query.get(request.form["templateid"])
+    if not template:
+        return "Template not found!"
+    form_dict = {}
+    for key, val in request.form.items():
+        if "_" not in key:
+            continue
+        attr, num = key.split("_")
+        if int(num) not in form_dict:
+            form_dict[int(num)] = {}
+        form_dict[int(num)][attr] = val
+    print(form_dict)
+    tn_list = sorted(form_dict.keys())
+    for tn_idx in tn_list:
+        text_node = TextNode()
+        text_node.set_coordinates_from_string(form_dict[tn_idx]["coords"])
+        text_node.set_rgb_from_string()
+        text_node.index = 0
+        text_node.template_id = template.id
+        db.session.add(text_node)
+    db.session.commit()
+    return redirect("/templates/{}".format(template.name))
