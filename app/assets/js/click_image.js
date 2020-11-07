@@ -45,6 +45,7 @@ function setUpCanvasAndImage() {
     var canvasContainer = document.getElementById("canvasContainer");
     var canvas = document.createElement("CANVAS");
     canvas.id = "canvas";
+    var image = document.getElementById("img");
     canvasContainer.appendChild(canvas);
     canvas.width = image.width;
     canvas.height = image.height;
