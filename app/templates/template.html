@@ -3,6 +3,9 @@
 <h3 class = "title is-3">Template {{ template.name }}</h3>
 <div class = "content">
     <img id = "img" src = "{{ template.image_url }}" class = "template-page-img">
+    <div id = "canvasContainer"></div>
+    <script>var textNodeArr = [];</script>
+    <button class = "button is-primary" onclick = "toggleTextNodes(textNodeArr);">Show TextNodes</button>
     <div class = "columns">
         <div class = "column">
             <p>Existing Text-Nodes</p>
@@ -53,4 +56,9 @@
 {% endblock %}
 {% block more_bottom %}
 <script src = "/assets/js/click_image.js"></script>
+<script>
+    {% for text_node in text_nodes %}
+        textNodeArr.push([{{ text_node.x }}, {{ text_node.y }}]);
+    {% endfor %}
+</script>
 {% endblock %}

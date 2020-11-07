@@ -33,12 +33,34 @@ function submitAddTextNodesForm() {
     document.getElementById(addTNsFormID).submit();
 }
 
-$(document).ready(function () {
-    $("#img").click(function (e) {
+function toggleTextNodes(textNodeArr) {
+    var ctx = document.getElementById("canvas").getContext("2d");
+    ctx.fillStyle = "#ffc300";
+    for (var i = 0; i < textNodeArr.length; i++) {
+        ctx.fillRect(textNodeArr[i][0], textNodeArr[i][1], 10, 10);
+    }
+}
+
+function setUpCanvasAndImage() {
+    var canvasContainer = document.getElementById("canvasContainer");
+    var canvas = document.createElement("CANVAS");
+    canvas.id = "canvas";
+    canvasContainer.appendChild(canvas);
+    canvas.width = image.width;
+    canvas.height = image.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(image, 0, 0);
+    image.remove();
+}
+
+function windowLoad() {
+    setUpCanvasAndImage();
+    $("#canvas").click(function (e) {
         var imgPos = $(this).offset();
         var xCoord = e.pageX - imgPos.left;
         var yCoord = e.pageY - imgPos.top;
-        //console.log(xCoord + ", " + yCoord);
         addTextNodeRow(xCoord, yCoord);
     });
-});
+}
+
+window.onload = windowLoad;
