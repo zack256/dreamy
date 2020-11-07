@@ -4,8 +4,11 @@
 <div class = "content">
     <img id = "img" src = "{{ template.image_url }}" class = "template-page-img">
     <div id = "canvasContainer"></div>
-    <script>var textNodeArr = [];</script>
-    <button class = "button is-primary" onclick = "toggleTextNodes(textNodeArr);">Show TextNodes</button>
+    <script>
+        var textNodeArr = [];
+        var tnsUp = false;
+    </script>
+    <button class = "button is-primary" id = "toggleTNBtn" onclick = "toggleTextNodes();">Show TextNodes</button>
     <div class = "columns">
         <div class = "column">
             <p>Existing Text-Nodes</p>
@@ -53,6 +56,7 @@
         </div>
     </div>
 </div>
+<div id = "textNodeDivsContainer"></div>
 {% endblock %}
 {% block more_bottom %}
 <script src = "/assets/js/click_image.js"></script>

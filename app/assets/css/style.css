@@ -11,6 +11,13 @@ body {
 .width-100 {
     width : 100% !important;
 }
+.textNodeDiv {
+    position : absolute;
+    width : 10px;
+    height : 10px;
+    background-color : #ffc300;
+    display : none;
+}
 /**
 .template-page-img {
     max-width : 50em !important;

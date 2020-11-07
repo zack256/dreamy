@@ -33,30 +33,41 @@ function submitAddTextNodesForm() {
     document.getElementById(addTNsFormID).submit();
 }
 
-function toggleTextNodes(textNodeArr) {
-    var ctx = document.getElementById("canvas").getContext("2d");
-    ctx.fillStyle = "#ffc300";
+function toggleTextNodes() {
+    var nodes = document.getElementsByClassName("textNodeDiv");
+    var toggleBtn = document.getElementById("toggleTNBtn");
+    if (tnsUp) {    // from html
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].style.display = "none";
+        }
+        toggleBtn.innerHTML = "Show TextNodes";
+    } else {
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].style.display = "block";
+        }
+        toggleBtn.innerHTML = "Hide TextNodes";
+    }
+    tnsUp = !tnsUp;
+}
+
+function setUpTNDivs() {
+    // textNodeArr is from the html page
+    var container = document.getElementById("textNodeDivsContainer");
+    var tnDiv;
+    var imgPos = $("img").offset();
     for (var i = 0; i < textNodeArr.length; i++) {
-        ctx.fillRect(textNodeArr[i][0], textNodeArr[i][1], 10, 10);
+        tnDiv = document.createElement("DIV");
+        tnDiv.classList.add("textNodeDiv");
+        tnDiv.style.left = imgPos.left + textNodeArr[i][0] + "px";
+        tnDiv.style.top = imgPos.top + textNodeArr[i][1] + "px";
+        console.log(imgPos.left + textNodeArr[i][0] + "px" + " ;;; " + imgPos.top + textNodeArr[i][1] + "px");
+        container.appendChild(tnDiv);
     }
 }
 
-function setUpCanvasAndImage() {
-    var canvasContainer = document.getElementById("canvasContainer");
-    var canvas = document.createElement("CANVAS");
-    canvas.id = "canvas";
-    var image = document.getElementById("img");
-    canvasContainer.appendChild(canvas);
-    canvas.width = image.width;
-    canvas.height = image.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0);
-    image.remove();
-}
-
 function windowLoad() {
-    setUpCanvasAndImage();
-    $("#canvas").click(function (e) {
+    setUpTNDivs();
+    $("#img").click(function (e) {
         var imgPos = $(this).offset();
         var xCoord = e.pageX - imgPos.left;
         var yCoord = e.pageY - imgPos.top;
