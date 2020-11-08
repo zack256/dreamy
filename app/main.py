@@ -68,22 +68,24 @@ def get_image_url_helper(reqd_template):
     image_option = utils.manual_get_image_option(reqd_template)
     if image_option == 0:
         image_url = reqd_template
+        template = None
     else:
         if image_option == 1:
             template = Template.query.get(reqd_template)
         else:
             template = Template.query.filter(Template.name == reqd_template).first()
         if not template:
-            return None
-        image_url = template.image_url
-    return image_url
+            image_url = None
+        else:
+            image_url = template.image_url
+    return image_url, template
 
 @app.route("/manual/")
 def manual_write_on_image():
     reqd_template = request.args.get("t", None)
     if not reqd_template:
         return "Need a template!"
-    image_url = get_image_url_helper(reqd_template)
+    image_url, template = get_image_url_helper(reqd_template)
     if not image_url:
         return "Template not found!"
     coords_dict = utils.unpack_coordinate_parameters(request.args)
@@ -109,10 +111,19 @@ def send_template_with_text_on_points():
     reqd_template = request.args.get("t", None)
     if not reqd_template:
         return "Need a template!"
-    image_url = get_image_url_helper(reqd_template)
+    image_url, template = get_image_url_helper(reqd_template)
     if not image_url:
         return "Template not found!"
-    return "Under construction..."
+    if not template:
+        return "This URL requires an image in the database!"
+    text_nodes = template.text_nodes
+    coords_dict = {}
+    for text_node in text_nodes:
+        reqd_label = request.args.get(str(text_node.index), None)
+        if reqd_label:
+            coords_dict[(text_node.x, text_node.y)] = reqd_label
+    img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
+    return send_file(img_bytesio, mimetype='image/jpeg')
 
 @app.route("/forms/add-text-nodes/", methods = ["POST"])
 def add_text_nodes_form():
@@ -127,13 +138,14 @@ def add_text_nodes_form():
         if int(num) not in form_dict:
             form_dict[int(num)] = {}
         form_dict[int(num)][attr] = val
-    print(form_dict)
     tn_list = sorted(form_dict.keys())
+    num_text_nodes = len(template.text_nodes)
     for tn_idx in tn_list:
         text_node = TextNode()
         text_node.set_coordinates_from_string(form_dict[tn_idx]["coords"])
         text_node.set_rgb_from_string()
-        text_node.index = 0
+        num_text_nodes += 1
+        text_node.index = num_text_nodes
         text_node.template_id = template.id
         db.session.add(text_node)
     db.session.commit()
