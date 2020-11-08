@@ -13,7 +13,9 @@ function addTextNodeRow(xCoord, yCoord) {
         tds.push(td);
     }
     tds[0].innerHTML = "(index)";
-    tds[1].innerHTML = "(desc)";
+    var descInput = document.createElement("INPUT");
+    descInput.classList.add("input");
+    tds[1].appendChild(descInput);
     tds[2].innerHTML = "(" + xCoord + ", " + yCoord + ")";
     tds[3].innerHTML = "(color)";
     var container = document.getElementById("textNodeDivsContainer");
@@ -22,20 +24,40 @@ function addTextNodeRow(xCoord, yCoord) {
     addTNElement(textNodeArr.length - 1, false, imgPos, container);
 }
 
+function addTextNodeInput(inputsDiv, name, value) {
+    var inp = document.createElement("INPUT");
+    inp.setAttribute("type", "hidden");
+    inputsDiv.appendChild(inp);
+    inp.setAttribute("form", addTNsFormID);
+    inp.setAttribute("name", name);
+    inp.setAttribute("value", value);
+}
+
 function submitAddTextNodesForm() {
     var tbody = document.getElementById(tbodyID);
     var inputsDiv = document.getElementById("inputsDiv");
     var inp;
     for (var i = 0; i < tbody.children.length; i++) {
-        inp = document.createElement("INPUT");
-        inp.setAttribute("type", "hidden");
-        inputsDiv.appendChild(inp);
-        inp.setAttribute("form", addTNsFormID);
-        inp.setAttribute("name", "coords_" + i);
-        inp.setAttribute("value", tbody.children[i].children[2].innerHTML);
+        addTextNodeInput(inputsDiv, "coords_" + i, tbody.children[i].children[2].innerHTML);
+        addTextNodeInput(inputsDiv, "desc_" + i, tbody.children[i].children[1].children[0].value);
     }
     document.getElementById(addTNsFormID).submit();
 }
+
+function resetAddTextNodesForm() {
+    var tbody = document.getElementById(tbodyID);
+    var numOldNodes = textNodeArr.length - tbody.children.length;
+    textNodeArr.splice(numOldNodes);
+    while (tbody.lastElementChild) {
+        tbody.removeChild(tbody.lastElementChild);
+    }
+    var newNodeDivs = document.getElementsByClassName("tndNew");
+    var container = document.getElementById("textNodeDivsContainer");
+    while (newNodeDivs[0]) {
+        container.removeChild(newNodeDivs[0]);
+    }
+}
+
 
 function toggleTextNodes() {
     var nodes = document.getElementsByClassName("textNodeDiv");

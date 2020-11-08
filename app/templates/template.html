@@ -52,7 +52,7 @@
                 <form id = "addTextNodesForm" action = "/forms/add-text-nodes/" method = "POST"></form>
                 <input type = "hidden" form = "addTextNodesForm" value = "{{ template.id }}" name = "templateid">
                 <button class = "button is-success" onclick = "submitAddTextNodesForm();">Add</button>
-                <button class = "button is-danger" type = "reset" form = "addTextNodesForm">Cancel</button>
+                <button class = "button is-danger" onclick = "resetAddTextNodesForm();">Cancel</button>
             </div>
         </div>
     </div>

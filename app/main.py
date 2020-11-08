@@ -143,6 +143,7 @@ def add_text_nodes_form():
     for tn_idx in tn_list:
         text_node = TextNode()
         text_node.set_coordinates_from_string(form_dict[tn_idx]["coords"])
+        text_node.description = form_dict[tn_idx]["desc"]
         text_node.set_rgb_from_string()
         num_text_nodes += 1
         text_node.index = num_text_nodes
