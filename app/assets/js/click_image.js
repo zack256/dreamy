@@ -16,6 +16,10 @@ function addTextNodeRow(xCoord, yCoord) {
     tds[1].innerHTML = "(desc)";
     tds[2].innerHTML = "(" + xCoord + ", " + yCoord + ")";
     tds[3].innerHTML = "(color)";
+    var container = document.getElementById("textNodeDivsContainer");
+    var imgPos = $("img").offset();
+    textNodeArr.push([xCoord, yCoord]);
+    addTNElement(textNodeArr.length - 1, false, imgPos, container);
 }
 
 function submitAddTextNodesForm() {
@@ -50,18 +54,29 @@ function toggleTextNodes() {
     tnsUp = !tnsUp;
 }
 
+function addTNElement(idx, isOld, imgPos, container) {
+    var tnDiv = document.createElement("DIV");
+    tnDiv.classList.add("textNodeDiv");
+    if (isOld) {
+        tnDiv.classList.add("tndOld");
+    } else {
+        tnDiv.classList.add("tndNew");
+        if (tnsUp) {
+            tnDiv.style.display = "block";
+        }
+    }
+    tnDiv.style.left = imgPos.left + textNodeArr[idx][0] + "px";
+    tnDiv.style.top = imgPos.top + textNodeArr[idx][1] + "px";
+    container.appendChild(tnDiv);
+}
+
 function setUpTNDivs() {
     // textNodeArr is from the html page
     var container = document.getElementById("textNodeDivsContainer");
     var tnDiv;
     var imgPos = $("img").offset();
     for (var i = 0; i < textNodeArr.length; i++) {
-        tnDiv = document.createElement("DIV");
-        tnDiv.classList.add("textNodeDiv");
-        tnDiv.style.left = imgPos.left + textNodeArr[i][0] + "px";
-        tnDiv.style.top = imgPos.top + textNodeArr[i][1] + "px";
-        console.log(imgPos.left + textNodeArr[i][0] + "px" + " ;;; " + imgPos.top + textNodeArr[i][1] + "px");
-        container.appendChild(tnDiv);
+        addTNElement(i, true, imgPos, container);
     }
 }
 

@@ -15,8 +15,13 @@ body {
     position : absolute;
     width : 10px;
     height : 10px;
-    background-color : #ffc300;
     display : none;
+}
+.tndOld {
+    background-color : #ffc300;
+}
+.tndNew {
+    background-color : #2ede07;
 }
 /**
 .template-page-img {

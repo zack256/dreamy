@@ -40,7 +40,7 @@ class TextNode(db.Model):
 
 @app.route("/")
 def home_page_view():
-    return "hello :)"
+    return render_template("index.html")
 
 @app.route("/create-template/")
 def write_on_image_page():
