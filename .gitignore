@@ -2,4 +2,4 @@
 .env
 Pipfile
 Pipfile.lock
-app/fonts
+#app/fonts	# might look at this some more. :)
