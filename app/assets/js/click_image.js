@@ -7,7 +7,7 @@ function addTextNodeRow(xCoord, yCoord) {
     tbody.appendChild(tr);
     var td;
     var tds = [];
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 5; i++) {
         td = document.createElement("TD");
         tr.appendChild(td);
         tds.push(td);
@@ -18,6 +18,13 @@ function addTextNodeRow(xCoord, yCoord) {
     tds[1].appendChild(descInput);
     tds[2].innerHTML = "(" + xCoord + ", " + yCoord + ")";
     tds[3].innerHTML = "(color)";
+
+    //tds[4].innerHTML = "(font size)";
+    var sizeInput = document.createElement("INPUT");
+    sizeInput.value = "40";
+    sizeInput.classList.add("input");
+    tds[4].appendChild(sizeInput);
+    
     var container = document.getElementById("textNodeDivsContainer");
     var imgPos = $("img").offset();
     textNodeArr.push([xCoord, yCoord]);
@@ -40,6 +47,7 @@ function submitAddTextNodesForm() {
     for (var i = 0; i < tbody.children.length; i++) {
         addTextNodeInput(inputsDiv, "coords_" + i, tbody.children[i].children[2].innerHTML);
         addTextNodeInput(inputsDiv, "desc_" + i, tbody.children[i].children[1].children[0].value);
+        addTextNodeInput(inputsDiv, "size_" + i, tbody.children[i].children[4].children[0].value);
     }
     document.getElementById(addTNsFormID).submit();
 }

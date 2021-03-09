@@ -23,6 +23,12 @@ body {
 .tndNew {
     background-color : #2ede07;
 }
+.tndOld:hover {
+    background-color : #61bc4d;
+}
+.tndNew:hover {
+    background-color : #d5af34;
+}
 /**
 .template-page-img {
     max-width : 50em !important;

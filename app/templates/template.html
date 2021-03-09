@@ -20,6 +20,7 @@
                         <th>Description</th>
                         <th>Coordinates</th>
                         <th>Color</th>
+                        <th>Font Size</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                         <td>{{ text_node.description }}</td>
                         <td>{{ text_node.get_coordinates_string() }}</td>
                         <td>{{ text_node.get_rgb_string() }}</td>
+                        <td>{{ text_node.font_size }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -43,6 +45,7 @@
                         <th>Description</th>
                         <th>Coordinates</th>
                         <th>Color</th>
+                        <th>Font Size</th>
                     </tr>
                 </thead>
                 <tbody id = "newTextNodesTBody"></tbody>

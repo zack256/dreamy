@@ -27,6 +27,7 @@ class TextNode(db.Model):
     g = db.Column(db.Integer)
     b = db.Column(db.Integer)
     index = db.Column(db.Integer)
+    font_size = db.Column(db.Integer)
     template_id = db.Column(db.Integer(), db.ForeignKey('templates.id', ondelete = 'CASCADE'))
     
     def get_coordinates_string(self):
@@ -121,7 +122,7 @@ def send_template_with_text_on_points():
     for text_node in text_nodes:
         reqd_label = request.args.get(str(text_node.index), None)
         if reqd_label:
-            coords_dict[(text_node.x, text_node.y)] = reqd_label
+            coords_dict[(text_node.x, text_node.y)] = [reqd_label, text_node.font_size if text_node.font_size else 40]
     img_bytesio = photoshop.write_on_image_with_coords_dict(image_url, coords_dict)
     return send_file(img_bytesio, mimetype='image/jpeg')
 
@@ -145,6 +146,7 @@ def add_text_nodes_form():
         text_node.set_coordinates_from_string(form_dict[tn_idx]["coords"])
         text_node.description = form_dict[tn_idx]["desc"]
         text_node.set_rgb_from_string()
+        text_node.font_size = form_dict[tn_idx]["size"]
         num_text_nodes += 1
         text_node.index = num_text_nodes
         text_node.template_id = template.id
