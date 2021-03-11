@@ -16,11 +16,11 @@
             <table class = "table is-striped">
                 <thead>
                     <tr>
-                        <th>Index</th>
-                        <th>Description</th>
-                        <th>Coordinates</th>
-                        <th>Color</th>
-                        <th>Font Size</th>
+                        <th width = "15%">Index</th>
+                        <th width = "40%">Description</th>
+                        <th width = "15%">Coordinates</th>
+                        <th width = "15%">Color</th>
+                        <th width = "15%">Font Size</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +29,7 @@
                         <td>{{ text_node.index }}</td>
                         <td>{{ text_node.description }}</td>
                         <td>{{ text_node.get_coordinates_string() }}</td>
-                        <td>{{ text_node.get_rgb_string() }}</td>
+                        <td style = "color : rgb{{ text_node.get_rgb_string() }};">{{ text_node.get_rgb_string() }}</td>
                         <td>{{ text_node.font_size }}</td>
                     </tr>
                     {% endfor %}
@@ -41,11 +41,11 @@
             <table class = "table is-striped">
                 <thead>
                     <tr>
-                        <th>Index</th>
-                        <th>Description</th>
-                        <th>Coordinates</th>
-                        <th>Color</th>
-                        <th>Font Size</th>
+                        <th width = "15%">Index</th>
+                        <th width = "40%">Description</th>
+                        <th width = "15%">Coordinates</th>
+                        <th width = "15%">Color</th>
+                        <th width = "15%">Font Size</th>
                     </tr>
                 </thead>
                 <tbody id = "newTextNodesTBody"></tbody>

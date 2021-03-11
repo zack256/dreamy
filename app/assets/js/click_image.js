@@ -17,7 +17,12 @@ function addTextNodeRow(xCoord, yCoord) {
     descInput.classList.add("input");
     tds[1].appendChild(descInput);
     tds[2].innerHTML = "(" + xCoord + ", " + yCoord + ")";
-    tds[3].innerHTML = "(color)";
+    
+    //tds[3].innerHTML = "(color)";
+    var colorInput = document.createElement("INPUT");
+    colorInput.value = "(0, 0, 0)";
+    colorInput.classList.add("input");
+    tds[3].appendChild(colorInput);
 
     //tds[4].innerHTML = "(font size)";
     var sizeInput = document.createElement("INPUT");
@@ -47,6 +52,7 @@ function submitAddTextNodesForm() {
     for (var i = 0; i < tbody.children.length; i++) {
         addTextNodeInput(inputsDiv, "coords_" + i, tbody.children[i].children[2].innerHTML);
         addTextNodeInput(inputsDiv, "desc_" + i, tbody.children[i].children[1].children[0].value);
+        addTextNodeInput(inputsDiv, "color_" + i, tbody.children[i].children[3].children[0].value);
         addTextNodeInput(inputsDiv, "size_" + i, tbody.children[i].children[4].children[0].value);
     }
     document.getElementById(addTNsFormID).submit();

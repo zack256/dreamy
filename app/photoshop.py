@@ -10,9 +10,9 @@ def write_on_image_with_coords_dict(image_url, coord_dict):
     #font = ImageFont.truetype("app/fonts/arial.ttf", size = 40)
     img = ImageDraw.Draw(pil_img)
     for coord in coord_dict:
-        text, font_size = coord_dict[coord]
+        text, font_size, text_color = coord_dict[coord]
         font = ImageFont.truetype("app/fonts/arial.ttf", size=font_size)
-        img.text(coord, text, font = font, fill = (0, 0, 0))
+        img.text(coord, text, font = font, fill = text_color)
     img_bytesio = BytesIO()
     pil_img.save(img_bytesio, "JPEG")
     img_bytesio.seek(0)

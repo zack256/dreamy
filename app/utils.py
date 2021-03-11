@@ -27,7 +27,7 @@ def unpack_coordinate_parameters(parameter_dict):
     for param in parameter_dict:
         coords = get_coordinates(param)
         if coords:
-            coordinate_dict[coords] = [parameter_dict[param], 40]
+            coordinate_dict[coords] = [parameter_dict[param], 40, "(0,0,0)"]
     return coordinate_dict
 
 def manual_get_image_option(requested):
